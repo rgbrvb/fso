@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   useEffect(() => {
@@ -15,6 +16,8 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [notification, setNotification] = useState(null)
+  const [error, setError] = useState(false)
 
   const personsToShow = filter.length > 0
     ? persons.filter(person => person.name.toLowerCase().includes(filter.toLocaleLowerCase()))
@@ -40,11 +43,25 @@ const App = () => {
         personService
           .update(updatedPerson.id, updatedPerson)
           .then(resp => setPersons(persons.map(person => person.id !== resp.id ? person : resp)))
+          .catch(err => {
+            setError(true)
+            setNotification(`Information of ${newName} has already been removed from server`)
+            setTimeout(() => {
+              setError(false)
+              setNotification(null)
+            }, 5000)
+          })
       }
     } else {
       personService
         .create({ name: newName, number: newNumber })
-        .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNotification(`Added ${newName}`)
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
+        })
     }
 
     setNewName('')
@@ -74,6 +91,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} error={error}/>
       <Filter filter={filter} handleFilterInput={handleFilterInput} />
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameInput={handleNameInput} newNumber={newNumber} handleNumberInput={handleNumberInput} />
