@@ -49,6 +49,7 @@ const App = () => {
             setTimeout(() => {
               setError(false)
               setNotification(null)
+              setPersons(persons.filter(person => person.id !== updatedPerson.id))
             }, 5000)
           })
       }

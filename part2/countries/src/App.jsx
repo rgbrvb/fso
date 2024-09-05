@@ -21,9 +21,6 @@ function App() {
   const handleCountryInput = (e) => {
     setSearch(e.target.value)
   }
-
-
-  console.log(import.meta.env.VITE_TEST_KEY);
   
   return (
     <>
