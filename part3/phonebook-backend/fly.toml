@@ -1,20 +1,20 @@
-# fly.toml app configuration file generated for phonebook-backend-floral-forest-4936 on 2024-09-05T14:00:29+02:00
+# fly.toml app configuration file generated for phonebook-backend-wild-brook-878 on 2024-09-09T14:46:36+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'phonebook-backend-floral-forest-4936'
+app = 'phonebook-backend-wild-brook-878'
 primary_region = 'cdg'
 
 [build]
 
 [env]
-  PORT = 3000
+  PORT = "3000"
 
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
